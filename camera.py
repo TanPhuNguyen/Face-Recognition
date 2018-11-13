@@ -246,7 +246,7 @@ class Camera(QMainWindow):
 						if int(id) == 1512872:
 							name="SY dep trai"
 					else:
-						name =" dm python"
+						name =" Unname"
 					self.pre_id= self.cur_id
 					self.cur_id = id
 					dis_str= "Student ID: %s, Name: %s" % (id, name)
