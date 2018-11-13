@@ -40,9 +40,7 @@ pip install -r requirements.txt
 
 ## Team members
 
-* **Nguyen Chinh Thuy** - *Technical*, *Functional management*
-* **Le Van Hoang Phuong** - *Technical*, *Attendance management*
-* **Nguyen Tan Sy** - *Technical*, *GUI*
-* **Do Tieu Thien** - *Algorithm*, *Face recognition*
-* **Nguyen Van Qui** - *Algorithm*, *Face detection and normalization*
-* **Nguyen Tan Phu** - *Algorithm*, *Blur removal*
+* **Nguyen Tan Phu**
+* **Nguyen Tan Sy**
+* **Nguyen Tai**
+* **Nguyen Van Quang**
