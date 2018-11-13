@@ -1,6 +1,6 @@
-# Face-Attendance-System
-An Attendance Checking System using Deep Facial Recognition, written in Python.
-[Small demo](https://www.youtube.com/watch?v=XzDDHDtsNwk)
+# Face-Recognition-System
+An Face Recognition System using Deep Facial Recognition, written in Python.
+
 
 
 ## Setup guidance
