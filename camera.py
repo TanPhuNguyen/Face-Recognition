@@ -10,112 +10,7 @@ from ui_camera import Ui_Camera
 from apis.motion_blur import detect_blur
 from apis.landmark import find_bbox, draw_bbox, check_front_view
 from apis.recognition import Recognizer
-from AudioPlayback import AudioPlayback
-from AttendanceChecking import AttendanceChecking
 import os, sys, sqlite3, cv2
-
-# try:
-# 	_fromUtf8 = QtCore.QString.fromUtf8
-# except AttributeError:
-# 	def _fromUtf8(s):
-# 		return s
-
-# try:
-# 	_encoding = QtWidgets.QApplication.UnicodeUTF8
-# 	def _translate(context, text, disambig):
-# 		return QtWidgets.QApplication.translate(context, text, disambig, _encoding)
-# except AttributeError:
-# 	def _translate(context, text, disambig):
-# 		return QtWidgets.QApplication.translate(context, text, disambig)
-
-
-# def get_total(filepath,mssv):
-# 	"""[get absent times]
-	
-# 	[fetch absent value from excels file and screen them]
-	
-# 	Arguments:
-# 		filepath {[string]} -- [excels file]
-# 		mssv {[int]} -- [student ID]
-# 	"""
-# 	file1 = AttendanceChecking(filepath)
-# 	absent=file1.get_total_absence(mssv)
-# 	Camera.display_absences(camera,absent)
-	
-
-# class OpenExcels(QWidget):
- 
-# 	def __init__(self):
-# 		super().__init__()
-# 		self.title = 'Open Excel Files'
-# 		self.left = 10
-# 		self.top = 10
-# 		self.width = 640
-# 		self.height = 480
-  
- 
-# 	def openinitUI(self):
-# 		self.setWindowTitle(self.title)
-# 		self.setGeometry(self.left, self.top, self.width, self.height)
-# 		self.openFileNameDialog() 
-# 		self.show()
-
-
-	# def saveinitUI(self):
-	# 	self.setWindowTitle(self.title)
-	# 	self.setGeometry(self.left, self.top, self.width, self.height)
-	# 	self.saveFileDialog()
-	# 	self.show()
- 
-
-	# def openFileNameDialog(self):
-	# 	"""[show dialog to open file]
-		
-	# 	[Unless the file is correct in terms of content and form, progress will not start ]
-	# 	"""
-
-	# 	options = QFileDialog.Options()
-	# 	options |= QFileDialog.DontUseNativeDialog
-	# 	fileName, _ = QFileDialog.getOpenFileName(self,"Open Excels", "","All Files (*);;Excel Workbook (*.xlsx)", options=options)
-	# 	camera.file_path = os.path.join(fileName)
-
-	# 	while camera.file_path:
-	# 		if not camera.file_path.endswith('.xlsx'):
-	# 			QMessageBox.warning(self, 'File Type Warning', ' Wrong Type Selected') 
-	# 			fileName, _ = QFileDialog.getOpenFileName(self,"Open Excels", "","All Files (*);;Excel Workbook (*.xlsx)", options=options)		
-	# 			camera.file_path = os.path.join(fileName)
-	# 			if camera.file_path == "":
-	# 				break
-	# 			continue
-	# 		file2= AttendanceChecking(camera.file_path)
-	# 		if not file2.if_standard_excel():
-	# 			QMessageBox.warning(self, 'File Content Warning', ' Wrong File Content') 
-	# 			fileName, _ = QFileDialog.getOpenFileName(self,"Open Excels", "","All Files (*);;Excel Workbook (*.xlsx)", options=options)		
-	# 			camera.file_path = os.path.join(fileName)
-	# 			continue
-	# 		else:
-	# 			break
-	# 	if camera.file_path:	
-	# 		camera.check_db_table(camera.file_path)
-	# 		camera.timer.start(5)
-
-
-	# def saveFileDialog(self):
-	# 	"""[show dialog to save file]
-		
-	# 	[Save exist template to location as specified by the user
-	# 	the type of file is .xlsx]
-	# 	"""
-
-	# 	options = QFileDialog.Options()
-	# 	options |= QFileDialog.DontUseNativeDialog
-	# 	fileName, _ = QFileDialog.getSaveFileName(self,"Save Template","","All Files (*);;Excel Files (*.xlsx)", options=options)
-	# 	if fileName:
-	# 	    camera.save_path = os.path.join(fileName)
-	# 	    file3= AttendanceChecking(camera.save_path)		    
-	# 	    if not camera.save_path.endswith('.xlsx'):
-	# 	    	camera.save_path+=".xlsx"
-	# 	    file3.new_standard_file(camera.save_path)
 
 
 class Camera(QMainWindow):
@@ -159,8 +54,8 @@ class Camera(QMainWindow):
 		self.timer.start(5)
 
 		# Others
-		self.file_path = ""
-		self.audios = ["../data/tone.mp3", "../data/face_stable.mp3", "look_ahead.mp3"]
+		# self.file_path = ""
+		# self.audios = ["../data/tone.mp3", "../data/face_stable.mp3", "look_ahead.mp3"]
 
 
 	def setCamera(self, cameraDevice):
@@ -180,45 +75,6 @@ class Camera(QMainWindow):
 		self.timer.timeout.connect(self.update_frame)
 		self.timer.stop()
 
-
-	# def check_db_table(self,filepath):
-	# 	'''[check if there is table.]
-		
-	# 	[if there is table, save to excel then blank new table, if there isn't table create new table.]
-		
-	# 	Arguments:
-	# 		filepath {[string]} -- [excel path]
-	# 	'''
-		
-	# 	mssv=[]
-	# 	with sqlite3.connect('.TempExcels.db') as db:
-	# 		c = db.cursor()
-	# 	c.execute("SELECT name FROM sqlite_master WHERE type='table';")
-	# 	exist = c.fetchone()
-	# 	if exist :
-	# 		self.ui.textBrowser.append("unsolved data")
-	# 		c.execute("SELECT * FROM Temp")
-	# 		for row in c.fetchall():
-	# 			mssv.append(row)
-	# 		filecheck = AttendanceChecking(filepath)
-	# 		failcases=filecheck.start_checking(mssv)
-	# 		fail_str = "Incomplete IDs:\n"
-	# 		if failcases:
-	# 			for failcase in failcases:
-	# 				fail_str= fail_str + str(failcase)+"\n"
-				
-	# 			QMessageBox.warning(self, 'Failcase list', fail_str)
-				
-	# 		self.ui.textBrowser.append("completely solved")
-	# 		c.execute('drop table if exists Temp')
-	# 		c.execute('create table if not exists Temp(mssv INT NOT NULL)')
-	# 		self.ui.textBrowser.append("create a new table - Ready to start")
-	# 	else:
-	# 		self.ui.textBrowser.append("Data cleared - Ready to start")
-	# 		c.execute('create table if not exists Temp(mssv INT NOT NULL)')
-	# 	db.commit()
-	# 	c.close()
-	# 	db.close()
 
 
 	def update_frame(self):
@@ -287,15 +143,15 @@ class Camera(QMainWindow):
 					# 	self.ui.textBrowser.append("Student ID had been checked")    
 				else:
 					dis_str= "Face is not in frontal view"
-					self.audio_settime+=1
-					if self.audio_settime >= 40:
-						self.allow_flag=1
-					if self.allow_flag:
-						AudioPlayback(self.audios[2])
-						self.audio_settime=0
-						self.allow_flag = 0
-					else:
-						pass
+					# self.audio_settime+=1
+					# if self.audio_settime >= 40:
+					# 	self.allow_flag=1
+					# if self.allow_flag:
+					# 	AudioPlayback(self.audios[2])
+					# 	self.audio_settime=0
+					# 	self.allow_flag = 0
+					# else:
+					# 	pass
 					self.ui.textBrowser.append(dis_str)
 					self.count=0
 			else:
@@ -333,39 +189,6 @@ class Camera(QMainWindow):
 		if window ==1:		 
 			self.ui.img_label.setPixmap(QPixmap.fromImage(outImage))
 			self.ui.img_label.setScaledContents(True)
-
-
-	# def configureOpenExcels(self):
-
-	# 	"""[config to open File]
-		
-	# 	"""
-	# 	settingsopenexcelDialog = OpenExcels()
-	# 	settingsopenexcelDialog.openinitUI()
-
-
-	# def configureSavetemplate(self):
-
-	# 	"""[config to save File]
-		
-	# 	"""
-	# 	settingssaveexcelDialog= OpenExcels()
-	# 	settingssaveexcelDialog.saveinitUI()
-
-
-	# def insert_to_db(self,in_value):
-	# 	"""[save value to .db file]
-		
-	# 	[Student IDs received after recognising will be saved to a temp table called Temp ]
-		
-	# 	Arguments:
-	# 		in_value {[int]} -- [(int)value to save into .db file ]
-	# 	"""
-	# 	with sqlite3.connect('.TempExcels.db') as db:
-	# 		c = db.cursor()
-	# 		c.execute('insert into Temp values(?)',(in_value,))
-	# 		db.commit()
-	# 		c.close()
 
 
 	def display_absences(self,absences):
@@ -456,39 +279,6 @@ class Camera(QMainWindow):
 		else:
 			event.ignore()  
 
-	# def Save_to_excel(self,filepath):
-	# 	"""[save data to excels]
-		
-	# 	[Fetch data from table and save them to Excels]
-		
-	# 	Arguments:
-	# 		filepath {[string]} -- [Excel file path]
-	# 	"""
-
-	# 	if self.file_path:
-	# 		mssv=[]
-	# 		with sqlite3.connect('.TempExcels.db') as db:
-	# 			c = db.cursor()
-	# 			c.execute("SELECT * FROM Temp")
-	# 			for row in c.fetchall():
-	# 				mssv.append(row[0])
-	# 			if mssv:
-	# 				filecheck = AttendanceChecking(filepath)
-	# 				failcases=filecheck.start_checking(mssv)
-	# 				fail_str = "Incomplete IDs:\n"
-	# 				if failcases:
-	# 					for failcase in failcases:
-	# 						fail_str= fail_str + str(failcase)+"\n"
-						
-	# 					QMessageBox.warning(self, 'Failcase list', fail_str)
-	# 				c.execute('drop table if exists Temp')
-	# 			else:
-	# 				self.ui.textBrowser.append("There is nothing to save")
-	# 		db.commit()
-	# 		c.close()
-	# 		db.close()
-	# 	else:
-	# 		self.ui.textBrowser.append("Open Excel File to process")
 
 
 	def correct_mssv(self,mssv):
@@ -505,8 +295,6 @@ class Camera(QMainWindow):
 			return(mssv_check)
 		else:
 			return(mssv)
-
-
 
 
 
