@@ -98,9 +98,24 @@ class Camera(QMainWindow):
 
 					image = cv2.cvtColor(self.image, cv2.COLOR_BGR2RGB)
 					id, score = self.recognizer.recognize(image, face_locs, 0.18825)
+
 					if not id == "unknown":
-						if int(id) == 1512872:
-							name="SY dep trai"
+
+						#Collect ID and name from text file
+						filepath = 'ID_Name.txt'
+						with open(filepath) as fp:
+							line = fp.readline()
+							while line:
+								ID= line.strip()
+								if ID == id:
+									next_line= fp.readline()
+									name= next_line.strip()
+								else:
+									pass
+								line = fp.readline()
+										
+						# if int(id) == 1512489:
+						# 	name="Phu"
 					else:
 						name =" Unname"
 					self.pre_id= self.cur_id
@@ -124,13 +139,6 @@ class Camera(QMainWindow):
 								# print("here")
 								id = int(id)
 								self.ui.textBrowser_confirm.append(dis_str)
-
-								# mssv_check=self.correct_mssv(int(id))
-								# self.insert_to_db(mssv_check)
-								# display the number of absences
-								# get_total(self.file_path,id)
-								# self.check_list.append(mssv_check)
-								# print(self.check_list)
 								self.checked =0
 							else:
 								pass
@@ -138,20 +146,9 @@ class Camera(QMainWindow):
 							self.count =0
 					else:
 						pass
-						self.count=0
-					# else:
-					# 	self.ui.textBrowser.append("Student ID had been checked")    
+						self.count=0  
 				else:
 					dis_str= "Face is not in frontal view"
-					# self.audio_settime+=1
-					# if self.audio_settime >= 40:
-					# 	self.allow_flag=1
-					# if self.allow_flag:
-					# 	AudioPlayback(self.audios[2])
-					# 	self.audio_settime=0
-					# 	self.allow_flag = 0
-					# else:
-					# 	pass
 					self.ui.textBrowser.append(dis_str)
 					self.count=0
 			else:
@@ -212,9 +209,6 @@ class Camera(QMainWindow):
 		
 		[Unless file path is invalid, camera is closed]
 		"""
-		# if not self.file_path:
-		# 	QMessageBox.warning(self, "Missing Excel file", "Open Excel File to Start Camera")
-		# else:
 		self.timer.start(5)
 
 
@@ -246,17 +240,10 @@ class Camera(QMainWindow):
 			"Are you sure to quit?", QMessageBox.Yes | 
 			QMessageBox.No, QMessageBox.No)
 		if reply == QMessageBox.Yes:
-			# if self.file_path:
-			# 	self.Save_to_excel(self.file_path)
-			# event.accept()
 			QtCore.QCoreApplication.instance().quit
-			# if self.file_path:
-			# 	self.Save_to_excel(self.file_path)
 			sys.exit()
 		else:
 			pass
-
-
 
 
 	def closeEvent(self, event):
@@ -273,8 +260,6 @@ class Camera(QMainWindow):
 			"Are you sure to quit?", QMessageBox.Yes | 
 			QMessageBox.No, QMessageBox.No)
 		if reply == QMessageBox.Yes:
-			# if self.file_path:
-			# 	self.Save_to_excel(self.file_path)
 			event.accept()
 		else:
 			event.ignore()  
@@ -295,7 +280,6 @@ class Camera(QMainWindow):
 			return(mssv_check)
 		else:
 			return(mssv)
-
 
 
 if __name__ == '__main__':
