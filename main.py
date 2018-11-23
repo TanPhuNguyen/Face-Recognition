@@ -6,7 +6,7 @@ from PyQt5.QtWidgets import QAction, QActionGroup, QMainWindow, QMessageBox
 from PyQt5.QtWidgets import QWidget, QInputDialog, QFileDialog
 from PyQt5.QtGui import QImage
 from PyQt5 import QtCore, QtWidgets
-from ui_camera import Ui_Camera
+from GUI import Ui_Camera
 from apis.motion_blur import detect_blur
 from apis.landmark import find_bbox, draw_bbox, check_front_view
 from apis.recognition import Recognizer
@@ -88,16 +88,17 @@ class Camera(QMainWindow):
 		# Remove motion-blur frame
 		if not detect_blur(self.image, thres=5.0):
 			face_locs = find_bbox(self.image)
-			n_faces = len(face_locs)
-			# Remove multi-face frame
-			if n_faces==1:
-				is_frontal, _ = check_front_view(self.image, face_locs)
+			# n_faces = len(face_locs)
+			# # Remove multi-face frame
+			# if n_faces==1:
+			for each_face in face_locs:
+				is_frontal, _ = check_front_view(self.image, each_face)
 				# Remove non-frontal-view frame
 				if is_frontal:
-					self.image, _, _ = draw_bbox(self.image, face_locs, color="green")
+					self.image, _, _ = draw_bbox(self.image, each_face, color="green")
 
 					image = cv2.cvtColor(self.image, cv2.COLOR_BGR2RGB)
-					id, score = self.recognizer.recognize(image, face_locs, 0.18825)
+					id, score = self.recognizer.recognize(image, each_face, 0.18825)
 
 					if not id == "unknown":
 
@@ -151,10 +152,10 @@ class Camera(QMainWindow):
 					dis_str= "Face is not in frontal view"
 					self.ui.textBrowser.append(dis_str)
 					self.count=0
-			else:
-				dis_str= "Require 1 face in the camera"
-				self.ui.textBrowser.append(dis_str)
-				self.count=0
+			# else:
+			# 	dis_str= "Require 1 face in the camera"
+			# 	self.ui.textBrowser.append(dis_str)
+			# 	self.count=0
 		else:
 			dis_str= "Frame is montion-blurred"
 			self.ui.textBrowser.append(dis_str)
