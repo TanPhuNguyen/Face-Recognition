@@ -29,9 +29,12 @@ def find_bbox(image):
 
 
 def list_to_rect(face_loc):
-    assert len(face_loc) == 1
-    y, x, w, h = face_loc[0]
-    return dlib.rectangle(left=x, top=y, right=x+w, bottom=y+h)
+    # assert len(face_loc) == 1
+    face_loc_rects=[]
+    for each_face_loc in face_loc:
+        y, x, w, h = each_face_loc
+        face_loc_rects.append(dlib.rectangle(left=x, top=y, right=x+w, bottom=y+h)) 
+    return face_loc_rects
 
 
 #------------------------------------------------------------------------------
@@ -81,7 +84,7 @@ def check_front_view(image, face_loc):
         return 0, 'Put your face in the center'
 
     gray = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
-    face_loc_rect = list_to_rect(face_loc)
+    face_loc_rects = list_to_rect(face_loc)
     shape = predictor(gray, face_loc_rect)
     shape = face_utils.shape_to_np(shape)
 
