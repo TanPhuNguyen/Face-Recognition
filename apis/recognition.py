@@ -43,10 +43,10 @@ class Recognizer:
 		Return:
 			student_id : (str) Student id of the recognized person.
 		"""
-		y_left_top = face_location[0][0] 
-		x_left_top = face_location[0][1] 
-		height = face_location[0][3] 
-		width = face_location[0][2] 
+		y_left_top = face_location[0] 
+		x_left_top = face_location[1] 
+		height = face_location[3] 
+		width = face_location[2] 
 		cropped = []
 		scaled = []
 		scaled_reshape = [] 

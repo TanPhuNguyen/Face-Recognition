@@ -88,14 +88,12 @@ class Camera(QMainWindow):
 		# Remove motion-blur frame
 		if not detect_blur(self.image, thres=5.0):
 			face_locs = find_bbox(self.image)
-			# n_faces = len(face_locs)
-			# # Remove multi-face frame
-			# if n_faces==1:
 			for each_face in face_locs:
+				
 				is_frontal, _ = check_front_view(self.image, each_face)
 				# Remove non-frontal-view frame
 				if is_frontal:
-					self.image, _, _ = draw_bbox(self.image, each_face, color="green")
+					self.image, _, _ = draw_bbox(self.image, face_locs, color="green")
 
 					image = cv2.cvtColor(self.image, cv2.COLOR_BGR2RGB)
 					id, score = self.recognizer.recognize(image, each_face, 0.18825)
@@ -136,7 +134,7 @@ class Camera(QMainWindow):
 						if self.pre_id==self.cur_id:
 							self.count+=1
 							# popup after 5 times 
-							if self.count ==2:
+							if self.count:
 								# print("here")
 								id = int(id)
 								self.ui.textBrowser_confirm.append(dis_str)
@@ -152,10 +150,7 @@ class Camera(QMainWindow):
 					dis_str= "Face is not in frontal view"
 					self.ui.textBrowser.append(dis_str)
 					self.count=0
-			# else:
-			# 	dis_str= "Require 1 face in the camera"
-			# 	self.ui.textBrowser.append(dis_str)
-			# 	self.count=0
+
 		else:
 			dis_str= "Frame is montion-blurred"
 			self.ui.textBrowser.append(dis_str)
