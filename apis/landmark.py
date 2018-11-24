@@ -37,7 +37,7 @@ def list_to_rect(face_loc):
 #------------------------------------------------------------------------------
 #	Draw bounding box(es) into an image.
 #------------------------------------------------------------------------------
-def draw_bbox(image, face_locs, color="blue"):
+def draw_bbox(image, face_locs, name,each_face,color="blue"):
     """
     Arguments:
         image : (ndarray) RGB image with shape of [width, height, channel].
@@ -59,6 +59,9 @@ def draw_bbox(image, face_locs, color="blue"):
         corner1 = (left, top)
         corner2 = (left+width, top+height)
         cv2.rectangle(output, corner1, corner2, colors[color], 2)
+        if face_loc== each_face:
+            cv2.putText(output,name,(each_face[1],each_face[0]),cv2.FONT_HERSHEY_SIMPLEX,1,255,2)
+            
     return output, corner1, corner2
 
 #------------------------------------------------------------------------------

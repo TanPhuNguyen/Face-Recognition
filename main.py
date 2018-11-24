@@ -51,7 +51,7 @@ class Camera(QMainWindow):
 		self.recognizer = Recognizer()
 		self.recognizer.create_graph(path_pretrained, path_SVM)
 		# self.ui.absenceNumber.hide()
-		self.timer.start(5)
+		# self.timer.start(5)
 
 		# Others
 		# self.file_path = ""
@@ -93,11 +93,11 @@ class Camera(QMainWindow):
 				is_frontal, _ = check_front_view(self.image, each_face)
 				# Remove non-frontal-view frame
 				if is_frontal:
-					self.image, _, _ = draw_bbox(self.image, face_locs, color="green")
+					
 
 					image = cv2.cvtColor(self.image, cv2.COLOR_BGR2RGB)
 					id, score = self.recognizer.recognize(image, each_face, 0.18825)
-
+					
 					if not id == "unknown":
 
 						#Collect ID and name from text file
@@ -117,6 +117,8 @@ class Camera(QMainWindow):
 						# 	name="Phu"
 					else:
 						name =" Unname"
+
+					self.image, _, _ = draw_bbox(self.image, face_locs,name,each_face, color="green")
 					self.pre_id= self.cur_id
 					self.cur_id = id
 					dis_str= "Student ID: %s, Name: %s" % (id, name)
