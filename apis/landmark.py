@@ -60,7 +60,7 @@ def draw_bbox(image, face_locs, name,each_face,color="blue"):
         corner2 = (left+width, top+height)
         cv2.rectangle(output, corner1, corner2, colors[color], 2)
         if face_loc== each_face:
-            cv2.putText(output,name,(each_face[1],each_face[0]),cv2.FONT_HERSHEY_SIMPLEX,1,255,2)
+            cv2.putText(output,name,(each_face[1],each_face[0]-20),cv2.FONT_HERSHEY_SIMPLEX,1,(255,0,0),2)
             
     return output, corner1, corner2
 
