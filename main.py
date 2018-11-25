@@ -114,14 +114,15 @@ class Camera(QMainWindow):
 								line = fp.readline()
 										
 						# if int(id) == 1512489:
-						# 	name="Phu"
+						# 	name = "Phu"
 					else:
-						name =" Unname"
+						name = "Unname"
 
 					self.image, _, _ = draw_bbox(self.image, face_locs,name,each_face, color="green")
 					self.pre_id= self.cur_id
 					self.cur_id = id
 					dis_str= "Student ID: %s, Name: %s" % (id, name)
+
 					# Verification: ID was checked or not 
 					self.ui.textBrowser.append(dis_str)
 					for check_idx in self.check_list:
@@ -129,6 +130,7 @@ class Camera(QMainWindow):
 							self.checked = True
 						else:
 							pass
+
 					# Process if ID has not been checked
 					# if not self.checked:
 					if not id== "unknown":
@@ -149,8 +151,8 @@ class Camera(QMainWindow):
 						pass
 						self.count=0  
 				else:
-					dis_str= "Face is not in frontal view"
-					self.ui.textBrowser.append(dis_str)
+					#dis_str= "Face is not in frontal view"
+					#self.ui.textBrowser.append(dis_str)
 					self.count=0
 
 		else:
@@ -184,23 +186,7 @@ class Camera(QMainWindow):
 		if window ==1:		 
 			self.ui.img_label.setPixmap(QPixmap.fromImage(outImage))
 			self.ui.img_label.setScaledContents(True)
-
-
-	def display_absences(self,absences):
-		"""[display the number of absences]
-		
-		[The number of absences of each ID will be on-screen 
-		if absent times >= threshold, a notification will appear on the screen]
-		
-		Arguments:
-			absences {[int]} -- [absent times]
-		"""
-		self.ui.absenceNumber.display(absences)
-		if absences == 3:
-			QMessageBox.warning(self, 'Absent Warning', 'This is your last absence') 
-		elif absences > 3:
-			QMessageBox.critical(None,'Absent Fail',"Your absences exceeded the allowable threshold", QMessageBox.Abort)
-	
+			
 
 	def startCamera(self):
 		"""[start camera]
