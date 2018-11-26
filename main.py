@@ -7,7 +7,6 @@ from PyQt5.QtWidgets import QWidget, QInputDialog, QFileDialog
 from PyQt5.QtGui import QImage
 from PyQt5 import QtCore, QtWidgets
 from GUI import Ui_Camera
-import datetime
 from apis.motion_blur import detect_blur
 from apis.landmark import find_bbox, draw_bbox, check_front_view
 from apis.recognition import Recognizer
@@ -122,8 +121,7 @@ class Camera(QMainWindow):
 					self.image, _, _ = draw_bbox(self.image, face_locs,name,each_face, color="green")
 					self.pre_id= self.cur_id
 					self.cur_id = id
-					dt_current = datetime.datetime.now()
-					dis_str= "Student Name: %s, Time: %s" % (name, dt_current)
+					dis_str= "Student ID: %s, Name: %s" % (id, name)
 
 					# Verification: ID was checked or not 
 					self.ui.textBrowser.append(dis_str)
